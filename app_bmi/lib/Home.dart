@@ -12,7 +12,8 @@ class _MyFORMState extends State<MyFORM> {
   var _weight;
   var _height;
   var _age;
-  var _selectedGender; 
+  var _selectedGender;
+  String? _genderError;
 
   final _ageController = TextEditingController();
   final _weightController = TextEditingController();
@@ -51,7 +52,13 @@ class _MyFORMState extends State<MyFORM> {
     } else if (double.parse(value) <= 0) {
       return 'กรุณาอย่าใส่ค่าต่ำกว่า 0 หรือ ติดลบ';
     }
-    return null;
+
+    if (_selectedGender == null) {
+      _genderError = 'กรุณาเลือกเพศ';
+    } else {
+      _genderError = null;
+    }
+    return _genderError;
   }
 
   @override
@@ -121,7 +128,8 @@ class _MyFORMState extends State<MyFORM> {
             onPressed: () {
               if (_validateInput(_age) == null &&
                   _validateInput(_weight) == null &&
-                  _validateInput(_height) == null) {
+                  _validateInput(_height) == null &&
+                  _genderError == null) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -130,7 +138,7 @@ class _MyFORMState extends State<MyFORM> {
                         age: _ageController.text,
                         width: _weightController.text,
                         height: _heightController.text,
-                        gender: _selectedGender, 
+                        gender: _selectedGender,
                       );
                     },
                   ),
