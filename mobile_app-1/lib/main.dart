@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class foodMenu {
+class FoodMenu {
   final String name;
   final String price;
   final String img;
 
-  foodMenu(this.name, this.price, this.img);
+  FoodMenu(this.name, this.price, this.img);
 }
 
 class ShoppingCart {
-  List<foodMenu> items = [];
+  List<FoodMenu> items = [];
 }
 
 void main() {
@@ -34,18 +34,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<foodMenu> menu = [
-    foodMenu("กุ้งเผา", "200", "assets/images/image1.jpg"),
-    foodMenu("กระเพราหมู", "60", "assets/images/image2.jpg"),
-    foodMenu("ทะเลเผา", "199", "assets/images/image3.jpg"),
-    foodMenu("ปูนึ่ง", "200", "assets/images/image4.jpg"),
-    foodMenu("ข้าวผัด", "60", "assets/images/image5.jpg"),
-    foodMenu("แฮมเบอร์เกอร์", "50", "assets/images/image6.jpg"),
-    foodMenu("ซูชิ", "70", "assets/images/image7.jpg"),
-    foodMenu("ข้าวยำไก่แซ่บ", "65", "assets/images/image8.jpg"),
-    foodMenu("ปูผัดผงกะหรี่", "70", "assets/images/image9.jpg"),
-    foodMenu("แกงเขียวหวาน", "65", "assets/images/image10.jpg"),
-    foodMenu("ผัดไท", "80", "assets/images/image11.jpg"),
+  List<FoodMenu> menu = [
+    FoodMenu("กุ้งเผา", "200", "assets/images/image1.jpg"),
+    FoodMenu("กระเพราหมู", "60", "assets/images/image2.jpg"),
+    FoodMenu("ทะเลเผา", "199", "assets/images/image3.jpg"),
+    FoodMenu("ปูนึ่ง", "200", "assets/images/image4.jpg"),
+    FoodMenu("ข้าวผัด", "60", "assets/images/image5.jpg"),
+    FoodMenu("แฮมเบอร์เกอร์", "50", "assets/images/image6.jpg"),
+    FoodMenu("ซูชิ", "70", "assets/images/image7.jpg"),
+    FoodMenu("ข้าวยำไก่แซ่บ", "65", "assets/images/image8.jpg"),
+    FoodMenu("ปูผัดผงกะหรี่", "70", "assets/images/image9.jpg"),
+    FoodMenu("แกงเขียวหวาน", "65", "assets/images/image10.jpg"),
+    FoodMenu("ผัดไท", "80", "assets/images/image11.jpg"),
   ];
 
   ShoppingCart shoppingCart = ShoppingCart();
@@ -62,46 +62,59 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         backgroundColor: const Color.fromARGB(255, 243, 33, 33),
         actions: [
-          TextButton(
+          IconButton(
             onPressed: () {
               _navigateToCart();
             },
-            child: Text(
-              'ดูตะกร้า',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
+            icon: Icon(Icons.shopping_cart, color: Colors.white),
+          )
         ],
       ),
       body: ListView.builder(
         itemCount: menu.length,
         itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            leading: Image.asset(
-              menu[index].img,
-              width: 200,
-              fit: BoxFit.cover,
+          return Card(
+            elevation: 2.0,
+            margin: EdgeInsets.all(8.0),
+            child: InkWell(
+              onTap: () {
+                _showDialog(menu[index]);
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    menu[index].img,
+                    width: double.infinity,
+                    height: 150.0,
+                    fit: BoxFit.cover,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          menu[index].name,
+                          style: TextStyle(fontSize: 18, color: Color.fromARGB(255, 0, 0, 0)),
+                        ),
+                        Text(
+                          'Price: ${menu[index].price} Baht',
+                          style: TextStyle(fontSize: 14, color: Color.fromARGB(255, 0, 0, 0)),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-            title: Text(
-              menu[index].name,
-              style:
-              TextStyle(fontSize: 18, color: Color.fromARGB(255, 0, 0, 0)),
-            ),
-            subtitle: Text(
-              'Price: ${menu[index].price} Baht',
-              style: TextStyle(
-                  fontSize: 14, color: const Color.fromARGB(255, 0, 0, 0)),
-            ),
-            onTap: () {
-              _showDialog(menu[index]);
-            },
           );
         },
       ),
     );
   }
 
-  void _showDialog(foodMenu selectedMenu) {
+  void _showDialog(FoodMenu selectedMenu) {
     int totalSelected = _getTotalSelected() + 1;
     double totalPrice = _getTotalPrice() + double.parse(selectedMenu.price);
     double taxRate = _calculateTax(totalSelected);
@@ -126,29 +139,29 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
-            actions: [
-              TextButton.icon(
-                icon: Icon(Icons.remove),
-                label: Text('ยกเลิก'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              TextButton.icon(
-                icon: Icon(Icons.add),
-                label: Text('เพิ่มลงตะกร้า'),
-                onPressed: () {
-                  _addItemToCart(selectedMenu);
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
+          actions: [
+            TextButton.icon(
+              icon: Icon(Icons.remove),
+              label: Text('ยกเลิก'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton.icon(
+              icon: Icon(Icons.add),
+              label: Text('เพิ่มลงตะกร้า'),
+              onPressed: () {
+                _addItemToCart(selectedMenu);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
         );
       },
     );
   }
 
-  void _addItemToCart(foodMenu selectedMenu) {
+  void _addItemToCart(FoodMenu selectedMenu) {
     setState(() {
       shoppingCart.items.add(selectedMenu);
       totalSelected++;
@@ -177,7 +190,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return totalPrice;
   }
 
-  double _calculateTax(int totalSelected) { // ภาษี
+  double _calculateTax(int totalSelected) {
     if (totalSelected > 10) {
       return 0.10; // 10% tax
     } else if (totalSelected > 7) {
@@ -207,7 +220,7 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
       body: ListView.builder(
         itemCount: widget.shoppingCart.items.length,
         itemBuilder: (BuildContext context, int index) {
-          final foodMenu item = widget.shoppingCart.items[index];
+          final FoodMenu item = widget.shoppingCart.items[index];
 
           return ListTile(
             title: Text(item.name),
@@ -233,7 +246,7 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
     );
   }
 
-  void _removeItem(foodMenu item) {
+  void _removeItem(FoodMenu item) {
     setState(() {
       widget.shoppingCart.items.remove(item);
     });
@@ -247,3 +260,4 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
     return total;
   }
 }
+  
