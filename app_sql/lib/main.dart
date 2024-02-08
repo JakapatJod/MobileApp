@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       title: 'SQLite CRUD',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.orange,
       ),
       home: const HomePage(),
     );
@@ -29,13 +29,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   List<Map<String, dynamic>> _journals = [];
 
   bool _isLoading = true;
 
   void _refreshJournals() async {
-    final data = await SQLHelper.getItem();
+    final data = await SQLHelper.getItems();
     setState(() {
       _journals = data;
       _isLoading = false;
@@ -158,13 +157,11 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         IconButton(
                           icon: const Icon(Icons.edit),
-                          onPressed: () =>
-                              _showForm(_journals[index]['id']),
+                          onPressed: () => _showForm(_journals[index]['id']),
                         ),
                         IconButton(
                           icon: const Icon(Icons.delete),
-                          onPressed: () =>
-                              _deleteItem(_journals[index]['id']),
+                          onPressed: () => _deleteItem(_journals[index]['id']),
                         ),
                       ],
                     ),
