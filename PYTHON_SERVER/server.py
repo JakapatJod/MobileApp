@@ -3,12 +3,13 @@ from werkzeug.wrappers import Request, Response
 from flask import flash, render_template, request
 from flask import jsonify
 from flask import Flask
-from flaskext.mysql import MySQL
+from flask_mysqldb import MySQL
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 mysql = MySQL()
 app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = ''
 app.config['MYSQL_DATABASE_DB'] = 'emp'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 mysql.init_app(app)
@@ -145,4 +146,4 @@ def delete_emp(emp_id):
 if __name__ == '__main__':
     from werkzeug.serving import run_simple
     app.debug = True
-    run_simple('localhost', 80, app) # change port number
+    run_simple('localhost', 700, app) # change port number
