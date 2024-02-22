@@ -51,7 +51,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Gyroscope Sensor in Flutter"),
-        backgroundColor: Colors.redAccent,
+        backgroundColor: Color.fromARGB(255, 82, 220, 255),
       ),
       body: Container(
         alignment: Alignment.center,
@@ -59,6 +59,10 @@ class _HomeState extends State<Home> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text(
+              "Direction: $direction",
+              style: TextStyle(fontSize: 20),
+            ),
             Text(
               "X: $x",
               style: TextStyle(fontSize: 20),
@@ -69,10 +73,6 @@ class _HomeState extends State<Home> {
             ),
             Text(
               "Z: $z",
-              style: TextStyle(fontSize: 20),
-            ),
-            Text(
-              "Direction: $direction",
               style: TextStyle(fontSize: 20),
             ),
           ],
